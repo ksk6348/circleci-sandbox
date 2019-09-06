@@ -23,7 +23,6 @@ jobs: # ステップの集合
             # ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-junit-reporter --reporter-options mochaFile=junit/result.xml --timeout 10000
             ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-multi --reporter-options xunit=junit/result.xml --timeout 10000
           when: always
-      
       - run:
           command: |
             echo $CIRCLE_INTERNAL_TASK_DATA
@@ -31,7 +30,6 @@ jobs: # ステップの集合
             sudo sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
             cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
             cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-
       - store_artifacts:
           path: junit
       - store_test_results:
