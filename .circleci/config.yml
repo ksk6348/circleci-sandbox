@@ -14,7 +14,8 @@ jobs: # ステップの集合
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-
+      - run:
+          command: sudo sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
       - run:
           command: |
             export CI_TESTFILES_UNIT=$(circleci tests glob "test/**/*.js" | circleci tests split --split-by=timings)
