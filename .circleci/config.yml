@@ -1,0 +1,44 @@
+version: 2 # CircleCI 2.0 を使用します
+jobs: # ステップの集合
+  build: # Workflows を使用しない実行では、エントリポイントとして `build` ジョブが必要
+    parallelism: 3
+    working_directory: ~/code # ステップが実行されるディレクトリ
+    docker: # Docker でステップを実行します
+      - image: circleci/node:6.10 # このイメージをすべての `steps` が実行されるプライマリコンテナとして使用します
+    steps: # 実行可能コマンドの集合
+      - checkout # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
+      - run:
+          name: install-npm-wee
+          command: npm install
+      - save_cache: # 依存関係キャッシュを保存する特別なステップ
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          command: sudo mkdir -p /junit
+      - run:
+          command: |
+            export CI_TESTFILES_UNIT=$(circleci tests glob "test/**/*.js" | circleci tests split --split-by=timings)
+            echo $CI_TESTFILES_UNIT
+            ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-junit-reporter --reporter-options mochaFile=junit/result.xml --timeout 10000
+          when: always
+      
+      - run:
+          command: |
+            echo $CIRCLE_INTERNAL_TASK_DATA
+            cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
+            cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json junit/result.json
+
+      - store_test_results:
+          path: $CIRCLE_INTERNAL_TASK_DATA/circle-test-results
+
+      - store_artifacts:
+          path: junit
+
+      - store_artifacts:
+          path: $CIRCLE_INTERNAL_TASK_DATA/circle-test-results
+
+      - run:
+          command: ls
+      # デプロイ例については https://circleci.com/docs/ja/2.0/deployment-integrations/ を参照してください
