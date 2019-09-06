@@ -26,9 +26,9 @@ jobs: # ステップの集合
           command: |
             echo $CIRCLE_INTERNAL_TASK_DATA
             cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-            # sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-            # cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
-            # cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
+            sudo sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
+            cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
+            cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
 
 
       - store_artifacts:
