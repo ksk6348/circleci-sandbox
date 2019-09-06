@@ -4,6 +4,9 @@ var calc = require('../calc.js');
 
 // Tests are hierarchical. Here we define a test suite for our calculator.
 describe('Calculator Tests2', function() {
+	before(() => {
+		
+	})
 	// And then we describe our testcases.
 	it('returns 1+1=2', function(done) {
 		setTimeout(() => {
