@@ -20,8 +20,7 @@ jobs: # ステップの集合
           command: |
             export CI_TESTFILES_UNIT=$(circleci tests glob "test/**/*.js" | circleci tests split --split-by=timings)
             echo $CI_TESTFILES_UNIT
-            # ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-junit-reporter --reporter-options mochaFile=junit/result.xml --timeout 10000
-            ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-multi --reporter-options xunit=junit/result.xml --timeout 10000
+            ./node_modules/.bin/mocha $CI_TESTFILES_UNIT --reporter mocha-junit-reporter --reporter-options mochaFile=junit/result.xml --timeout 10000
           when: always
       - run:
           command: |
