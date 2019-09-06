@@ -16,11 +16,6 @@ jobs: # ステップの集合
             - ./node_modules
 
       - run:
-          command: | 
-            sudo mkdir -p /junit
-            sudo cp ./result.json $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-
-      - run:
           command: |
             export CI_TESTFILES_UNIT=$(circleci tests glob "test/**/*.js" | circleci tests split --split-by=timings)
             echo $CI_TESTFILES_UNIT
@@ -31,9 +26,9 @@ jobs: # ステップの集合
           command: |
             echo $CIRCLE_INTERNAL_TASK_DATA
             cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-            sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-            cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
-            cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
+            # sed -i -e "s/\/home\/circleci\/code\///g" $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
+            # cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
+            # cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
 
 
       - store_artifacts:
