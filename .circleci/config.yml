@@ -28,13 +28,16 @@ jobs: # ステップの集合
           command: |
             echo $CIRCLE_INTERNAL_TASK_DATA
             cat $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json
-            cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json junit/result.json
+            cp $CIRCLE_INTERNAL_TASK_DATA/circle-test-results/results.json result.json
 
       - store_test_results:
           path: junit
 
       - store_artifacts:
           path: junit
+
+      - store_artifacts:
+          path: result.json
 
       - run:
           command: ls
